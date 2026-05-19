@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+*.log
+.DS_Store
+
+# Generated at build time from namelist.json
+src/data/generated

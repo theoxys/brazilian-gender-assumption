@@ -1,0 +1,63 @@
+{
+  "name": "brazilian-gender-assumption",
+  "version": "0.1.0",
+  "description": "Infer gender (male/female) from Brazilian first names using a 103k+ name database, with optional fuzzy matching. Fast, isomorphic (Node + browser), zero runtime dependencies.",
+  "keywords": [
+    "gender",
+    "name",
+    "names",
+    "brazil",
+    "brazilian",
+    "gender-detection",
+    "gender-guess",
+    "genderize",
+    "fuzzy",
+    "nlp"
+  ],
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-user/brazilian-gender-assumption.git"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "sideEffects": false,
+  "files": ["dist/**/*.js", "dist/**/*.cjs", "dist/**/*.d.ts", "dist/**/*.d.cts"],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build:data": "node scripts/build-data.mjs",
+    "prebuild": "npm run build:data",
+    "build": "tsup",
+    "pretest": "npm run build:data",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "bench": "node --import tsx bench/lookup.bench.ts",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "typecheck": "tsc --noEmit",
+    "prepare": "node scripts/build-data.mjs",
+    "prepublishOnly": "npm run build",
+    "release": "changeset publish"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@changesets/cli": "^2.27.10",
+    "tinybench": "^3.0.7",
+    "tsup": "^8.3.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
