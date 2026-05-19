@@ -15,13 +15,12 @@ jobs:
       id-token: write # required for npm OIDC trusted publishing + provenance
     steps:
       - uses: actions/checkout@v4
+      # Node 24 ships npm >= 11.5.1, which is required for OIDC trusted publishing.
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: npm
           registry-url: https://registry.npmjs.org
-      # Trusted publishing (OIDC) requires a recent npm; upgrade before publishing.
-      - run: npm install -g npm@latest
       - run: npm ci
 
       # Opens/updates a "Version Packages" PR, or publishes when that PR is merged.
