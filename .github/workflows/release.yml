@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      id-token: write # required for npm provenance
+      id-token: write # required for npm OIDC trusted publishing + provenance
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -20,15 +20,16 @@ jobs:
           node-version: 22
           cache: npm
           registry-url: https://registry.npmjs.org
+      # Trusted publishing (OIDC) requires a recent npm; upgrade before publishing.
+      - run: npm install -g npm@latest
       - run: npm ci
 
       # Opens/updates a "Version Packages" PR, or publishes when that PR is merged.
+      # Authentication is OIDC trusted publishing — no NPM_TOKEN needed. Configure
+      # the trusted publisher in the package settings on npmjs.com.
       - uses: changesets/action@v1
         with:
           publish: npm run release
           version: npx changeset version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_CONFIG_PROVENANCE: "true"
