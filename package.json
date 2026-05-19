@@ -1,6 +1,6 @@
 {
   "name": "brazilian-gender-assumption",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Infer gender (male/female) from Brazilian first names using a 103k+ name database, with optional fuzzy matching. Fast, isomorphic (Node + browser), zero runtime dependencies.",
   "keywords": [
     "gender",
@@ -36,7 +36,12 @@
     }
   },
   "sideEffects": false,
-  "files": ["dist/**/*.js", "dist/**/*.cjs", "dist/**/*.d.ts", "dist/**/*.d.cts"],
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.cts"
+  ],
   "engines": {
     "node": ">=18"
   },
