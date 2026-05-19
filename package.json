@@ -15,10 +15,14 @@
     "nlp"
   ],
   "license": "MIT",
-  "author": "",
+  "author": "theoxys",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-user/brazilian-gender-assumption.git"
+    "url": "git+https://github.com/theoxys/brazilian-gender-assumption.git"
+  },
+  "homepage": "https://github.com/theoxys/brazilian-gender-assumption#readme",
+  "bugs": {
+    "url": "https://github.com/theoxys/brazilian-gender-assumption/issues"
   },
   "type": "module",
   "main": "./dist/index.cjs",
