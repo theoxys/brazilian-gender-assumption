@@ -1,5 +1,11 @@
 # brazilian-gender-assumption
 
+## 0.1.1
+
+### Patch Changes
+
+- 45975f2: Republish through the CI release pipeline using npm OIDC trusted publishing, adding a build provenance attestation to the package.
+
 ## 0.1.0
 
 Initial release.
