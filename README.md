@@ -2,7 +2,12 @@
 
 Infer **gender** (`"male"` / `"female"`) from Brazilian first names, backed by a database of **103,226 names**. Fast O(1) exact lookups, optional fuzzy matching for typos, zero runtime dependencies, isomorphic (Node + browser), TypeScript-first.
 
-> ⚠️ Names do not determine anyone's gender identity. This library returns a **statistical assumption** based on name-registration data. Use it for heuristics (e.g. defaulting a salutation), never as a source of truth about a person.
+> ⚠️ **This is a statistical assumption about a name, not a fact about any person.**
+> The data comes from Brazil's **IBGE 2010 Census** and reflects how people were
+> registered at the civil registry (*cartório*) at birth. It has **nothing to do with
+> anyone's sexual orientation or gender identity**. Every individual is free to identify
+> however they wish, without any contestation — this library makes no claim about that.
+> Treat the output as a probabilistic hint about a name, never as a statement about a person.
 
 ## Install
 
@@ -29,6 +34,40 @@ getNameInfo("Maria");
 //   matchType: "exact", similarity: 1
 // }
 ```
+
+## TypeScript
+
+Type declarations ship with the package — no `@types/*` to install. Return types are
+inferred automatically, and all public types are exported for your own signatures.
+
+```ts
+import {
+  getGender,
+  getNameInfo,
+  getGenderAsync,
+  preloadFuzzy,
+} from "brazilian-gender-assumption";
+import type { Gender, NameInfo, LookupOptions } from "brazilian-gender-assumption";
+
+// Return types are inferred: Gender | undefined
+const g = getGender("José"); // "male" | "female" | undefined
+
+// Use the exported types in your own code
+function greet(name: string): string {
+  const info: NameInfo | undefined = getNameInfo(name);
+  if (!info?.gender) return `Olá, ${name}`;
+  return info.gender === "female" ? `Bem-vinda, ${name}` : `Bem-vindo, ${name}`;
+}
+
+const options: LookupOptions = { fuzzy: true, threshold: 0.8, compound: true };
+
+async function resolve(name: string): Promise<Gender | undefined> {
+  await preloadFuzzy(); // or just call getGenderAsync with { fuzzy: true }
+  return getGenderAsync(name, options);
+}
+```
+
+Works with `moduleResolution` set to `bundler`, `node16`, or `nodenext`.
 
 ## How gender is decided
 
@@ -105,6 +144,9 @@ Run the benchmark with `npm run bench`.
 
 ## Notes on the data
 
+- **Source:** Brazil's **IBGE 2010 Census** — name frequencies from how people were
+  registered at the civil registry (*cartório*) at birth. See the disclaimer at the top:
+  this reflects registration data, not anyone's gender identity or sexual orientation.
 - Names are matched case- and accent-insensitively (`José` → `JOSE`).
 - Gender is derived **only** from the ratios. The source dataset's `classification`
   field is ignored because ~20k rare names are mislabeled there.
